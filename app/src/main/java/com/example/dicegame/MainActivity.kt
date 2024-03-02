@@ -47,6 +47,12 @@ fun MyScreenContent() {
                 val mathProblem = remember { mutableStateOf("")}
                 var userAnswer by remember { mutableStateOf("")}
                 val message = remember { mutableStateOf("")}
+                var player1 by remember { mutableStateOf(0)}
+                var num1 by remember { mutableStateOf(0)}
+                var num2 by remember { mutableStateOf(0)}
+                var sum by remember { mutableStateOf(0)}
+                var difference by remember { mutableStateOf(0)}
+                var product by remember { mutableStateOf(0)}
                 // Place your button inside this Column
                 Button(
                     onClick = {
@@ -57,18 +63,21 @@ fun MyScreenContent() {
                         message.value = ""
                         when (result) {
                             1 -> {
-                                val num1 = Random.nextInt(0, 100)
-                                val num2 = Random.nextInt(0, 100)
+                                num1 = Random.nextInt(0, 100)
+                                num2 = Random.nextInt(0, 100)
+                                sum = num1 + num2
                                 mathProblem.value = "$num1 + $num2 = ?"
                             }
                             2 -> {
-                                val num1 = Random.nextInt(0, 100)
-                                val num2 = Random.nextInt(0, 100)
+                                num1 = Random.nextInt(0, 100)
+                                num2 = Random.nextInt(0, 100)
+                                difference = num1 - num2
                                 mathProblem.value = "$num1 - $num2 = ?"
                             }
                             3 -> {
-                                val num1 = Random.nextInt(0, 21)
-                                val num2 = Random.nextInt(0, 21)
+                                num1 = Random.nextInt(0, 21)
+                                num2 = Random.nextInt(0, 21)
+                                product = num1 * num2
                                 mathProblem.value = "$num1 * $num2 = ?"
                             }
                             4 -> {
@@ -86,6 +95,7 @@ fun MyScreenContent() {
                 ) {
                     Text("Roll the Die")
                 }
+                Text("Player 1: $player1")
                 // ... other composables
                 Image (
                     painter = painterResource(id = when (diceRoll.value) {
@@ -112,8 +122,21 @@ fun MyScreenContent() {
 
                     OutlinedButton(
                         onClick = {
-                            // Logic to check the answer could be implemented here
-                            message.value = "Your answer is recorded! [Placeholder for checking logic]"
+                            if (userAnswer.isNotEmpty()) {
+                                val answer = userAnswer.toInt()
+                                if (diceRoll.value == 1 && answer == sum) {
+                                    message.value = "Correct!"
+                                    player1 += 1
+                                } else if (diceRoll.value == 2 && answer == difference) {
+                                    message.value = "Correct!"
+                                    player1 += 2
+                                } else if (diceRoll.value == 3 && answer == product) {
+                                    message.value = "Correct!"
+                                    player1 += 3
+                                } else {
+                                    message.value = "Incorrect!"
+                                }
+                            }
                         }
                     ) {
                         Text("Submit Answer")
@@ -126,10 +149,6 @@ fun MyScreenContent() {
             }
         }
     }
-}
-
-fun BasicTextField(value: String, onValueChange: () -> Unit, label: () -> Unit, modifier: Modifier) {
-
 }
 
 @Preview(showBackground = true)
