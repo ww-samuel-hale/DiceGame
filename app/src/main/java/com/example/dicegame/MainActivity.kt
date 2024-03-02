@@ -53,6 +53,7 @@ fun MyScreenContent() {
                 var sum by remember { mutableStateOf(0)}
                 var difference by remember { mutableStateOf(0)}
                 var product by remember { mutableStateOf(0)}
+                    var doublePoints by remember { mutableStateOf(1)}
                 // Place your button inside this Column
                 Button(
                     onClick = {
@@ -82,9 +83,11 @@ fun MyScreenContent() {
                             }
                             4 -> {
                                 mathProblem.value = "Roll again for double points!"
+                                doublePoints = 2
                             }
                             5 -> {
                                 mathProblem.value = "Lose a turn!"
+                                doublePoints = 1
                             }
                             else -> {
                                 mathProblem.value = "Jackpot attempt!"
@@ -126,15 +129,19 @@ fun MyScreenContent() {
                                 val answer = userAnswer.toInt()
                                 if (diceRoll.value == 1 && answer == sum) {
                                     message.value = "Correct!"
-                                    player1 += 1
+                                    player1 += (1*doublePoints)
+                                    doublePoints = 1
                                 } else if (diceRoll.value == 2 && answer == difference) {
                                     message.value = "Correct!"
-                                    player1 += 2
+                                    player1 += (2*doublePoints)
+                                    doublePoints = 1
                                 } else if (diceRoll.value == 3 && answer == product) {
                                     message.value = "Correct!"
-                                    player1 += 3
+                                    player1 += (3*doublePoints)
+                                    doublePoints = 1
                                 } else {
                                     message.value = "Incorrect!"
+                                    doublePoints = 1
                                 }
                             }
                         }
