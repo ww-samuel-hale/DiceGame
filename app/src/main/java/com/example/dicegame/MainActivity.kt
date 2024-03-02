@@ -43,6 +43,10 @@ fun MyScreenContent() {
                     Text("Roll the Die")
                 }
                 // ... other composables
+                Image (
+                    painter = painterResource(id = R.drawable.dice_1),
+                    contentDescription = "Dice Image"
+                )
             }
         }
     }
