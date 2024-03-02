@@ -43,11 +43,39 @@ fun MyScreenContent() {
         Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
             Column(modifier = Modifier.padding(16.dp)) {
                 val diceRoll = remember { mutableStateOf(1) }
+                val mathProblem = remember { mutableStateOf("")}
                 // Place your button inside this Column
                 Button(
                     onClick = {
                         // Handle the button click here
-                        diceRoll.value = Random.nextInt(1, 7)
+                        val result = Random.nextInt(1, 7)
+                        diceRoll.value = result
+                        when (result) {
+                            1 -> {
+                                val num1 = Random.nextInt(0, 100)
+                                val num2 = Random.nextInt(0, 100)
+                                mathProblem.value = "$num1 + $num2 = ?"
+                            }
+                            2 -> {
+                                val num1 = Random.nextInt(0, 100)
+                                val num2 = Random.nextInt(0, 100)
+                                mathProblem.value = "$num1 - $num2 = ?"
+                            }
+                            3 -> {
+                                val num1 = Random.nextInt(0, 21)
+                                val num2 = Random.nextInt(0, 21)
+                                mathProblem.value = "$num1 * $num2 = ?"
+                            }
+                            4 -> {
+                                mathProblem.value = "Roll again for double points!"
+                            }
+                            5 -> {
+                                mathProblem.value = "Lose a turn!"
+                            }
+                            else -> {
+                                mathProblem.value = "Jackpot attempt!"
+                            }
+                        }
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
@@ -65,6 +93,9 @@ fun MyScreenContent() {
                     }),
                     contentDescription = "Dice Image"
                 )
+
+                Text("Dice Roll: ${diceRoll.value}")
+                Text("Math Problem: ${mathProblem.value}")
             }
         }
     }
